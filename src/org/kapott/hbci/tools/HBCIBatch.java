@@ -29,8 +29,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -405,7 +407,7 @@ public class HBCIBatch
                     
                     // ergebnis-writer für ok-jobs und für fehlerhafte jobs
                     // erzeugen
-                    PrintWriter writer=new PrintWriter(new FileWriter(args[3]));
+                    PrintWriter writer=new PrintWriter(new OutputStreamWriter(new FileOutputStream(args[3]), Charset.forName("UTF-8").newEncoder()));
                     PrintWriter errWriter=new PrintWriter(new FileWriter(args[3]+".err"));
                     
                     try {
@@ -453,7 +455,9 @@ public class HBCIBatch
                                     // ausgabemodus="toString": job-spezifische
                                     // toString()-methode für formatierung der
                                     // ergebnisdaten aufrufen
+                                    writer.println("---|||---");
                                     writer.println(job.getJobResult());
+                                    writer.println("---|||---");
                                 }
                                 
                                 // leerzeile einfügen
