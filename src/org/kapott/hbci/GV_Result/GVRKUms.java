@@ -47,6 +47,7 @@ import org.kapott.hbci.structures.Konto;
 import org.kapott.hbci.structures.Saldo;
 import org.kapott.hbci.structures.Value;
 import org.kapott.hbci.swift.Swift;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -140,120 +141,101 @@ public class GVRKUms extends HBCIJobResultImpl {
             }
         }
 
-        public String toString() {
-            try {
-                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        public void addResult(Document doc, Element parentElement) {
+            Element rootElement = doc.createElement("booking");
+            parentElement.appendChild(rootElement);
+            
+            Element element = null;
 
-                Document doc = docBuilder.newDocument();
-                Element rootElement = doc.createElement("booking");
-                doc.appendChild(rootElement);
+            if (valuta != null) {
+                element = doc.createElement("valuta");
+                element.appendChild(doc.createTextNode(HBCIUtils.date2StringLocal(valuta)));
+                rootElement.appendChild(element);
+            }
 
-                Element element = null;
+            if (bdate != null) {
+                element = doc.createElement("bdate");
+                element.appendChild(doc.createTextNode(HBCIUtils.date2StringLocal(bdate)));
+                rootElement.appendChild(element);
+            }
 
-                if (valuta != null) {
-                    element = doc.createElement("valuta");
-                    element.appendChild(doc.createTextNode(HBCIUtils.date2StringLocal(valuta)));
-                    rootElement.appendChild(element);
-                }
+            if (customerref != null) {
+                element = doc.createElement("customerref");
+                element.appendChild(doc.createTextNode(customerref));
+                rootElement.appendChild(element);
+            }
 
-                if (bdate != null) {
-                    element = doc.createElement("bdate");
-                    element.appendChild(doc.createTextNode(HBCIUtils.date2StringLocal(bdate)));
-                    rootElement.appendChild(element);
-                }
+            if (instref != null) {
+                element = doc.createElement("instref");
+                element.appendChild(doc.createTextNode(instref));
+                rootElement.appendChild(element);
+            }
 
-                if (customerref != null) {
-                    element = doc.createElement("customerref");
-                    element.appendChild(doc.createTextNode(customerref));
-                    rootElement.appendChild(element);
-                }
+            if (isStorno) {
+                element = doc.createElement("isStorno");
+                element.appendChild(doc.createTextNode(isStorno ? "true" : "false"));
+                rootElement.appendChild(element);
+            }
 
-                if (instref != null) {
-                    element = doc.createElement("instref");
-                    element.appendChild(doc.createTextNode(instref));
-                    rootElement.appendChild(element);
-                }
+            if (gvcode != null) {
+                element = doc.createElement("gvcode");
+                element.appendChild(doc.createTextNode(gvcode));
+                rootElement.appendChild(element);
+            }
 
-                if (isStorno) {
-                    element = doc.createElement("isStorno");
-                    element.appendChild(doc.createTextNode(isStorno ? "true" : "false"));
-                    rootElement.appendChild(element);
-                }
+            if (text != null) {
+                element = doc.createElement("text");
+                element.appendChild(doc.createTextNode(text));
+                rootElement.appendChild(element);
+            }
 
-                if (gvcode != null) {
-                    element = doc.createElement("gvcode");
-                    element.appendChild(doc.createTextNode(gvcode));
-                    rootElement.appendChild(element);
-                }
+            if (primanota != null) {
+                element = doc.createElement("primanota");
+                element.appendChild(doc.createTextNode(primanota));
+                rootElement.appendChild(element);
+            }
 
-                if (text != null) {
-                    element = doc.createElement("text");
-                    element.appendChild(doc.createTextNode(text));
-                    rootElement.appendChild(element);
-                }
+            if (additional != null) {
+                element = doc.createElement("additional");
+                element.appendChild(doc.createTextNode(additional));
+                rootElement.appendChild(element);
+            }
 
-                if (primanota != null) {
-                    element = doc.createElement("primanota");
-                    element.appendChild(doc.createTextNode(primanota));
-                    rootElement.appendChild(element);
-                }
+            if (value != null) {
+                element = doc.createElement("value");
+                element.appendChild(doc.createTextNode(value.toString()));
+                rootElement.appendChild(element);
+            }
+            if (orig_value != null) {
+                element = doc.createElement("orig_value");
+                element.appendChild(doc.createTextNode(orig_value.toString()));
+                rootElement.appendChild(element);
+            }
+            if (charge_value != null) {
+                element = doc.createElement("charge_value");
+                element.appendChild(doc.createTextNode(charge_value.toString()));
+                rootElement.appendChild(element);
+            }
+            if (saldo != null) {
+                element = doc.createElement("saldo");
+                element.appendChild(doc.createTextNode(saldo.toString()));
+                rootElement.appendChild(element);
+            }
+            if (other != null) {
+                element = doc.createElement("other");
+                element.appendChild(doc.createTextNode(other.toString()));
+                rootElement.appendChild(element);
+            }
 
-                if (additional != null) {
-                    element = doc.createElement("additional");
-                    element.appendChild(doc.createTextNode(additional));
-                    rootElement.appendChild(element);
+            Element usageElement = doc.createElement("usages");
+            rootElement.appendChild(usageElement);
+            for (Iterator<String> i = usage.iterator(); i.hasNext();) {
+                String s = i.next();
+                if (s != null) {
+                    element = doc.createElement("usage");
+                    element.appendChild(doc.createTextNode(s));
+                    usageElement.appendChild(element);
                 }
-
-                if (value != null) {
-                    element = doc.createElement("value");
-                    element.appendChild(doc.createTextNode(value.toString()));
-                    rootElement.appendChild(element);
-                }
-                if (orig_value != null) {
-                    element = doc.createElement("orig_value");
-                    element.appendChild(doc.createTextNode(orig_value.toString()));
-                    rootElement.appendChild(element);
-                }
-                if (charge_value != null) {
-                    element = doc.createElement("charge_value");
-                    element.appendChild(doc.createTextNode(charge_value.toString()));
-                    rootElement.appendChild(element);
-                }
-                if (saldo != null) {
-                    element = doc.createElement("saldo");
-                    element.appendChild(doc.createTextNode(saldo.toString()));
-                    rootElement.appendChild(element);
-                }
-                if (other != null) {
-                    element = doc.createElement("other");
-                    element.appendChild(doc.createTextNode(other.toString()));
-                    rootElement.appendChild(element);
-                }
-
-                Element usageElement = doc.createElement("usages");
-                rootElement.appendChild(usageElement);
-                for (Iterator<String> i = usage.iterator(); i.hasNext();) {
-                    String s = i.next();
-                    if (s != null) {
-                        element = doc.createElement("usage");
-                        element.appendChild(doc.createTextNode(s));
-                        usageElement.appendChild(element);
-                    }
-                }
-
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new StringWriter());
-                transformer.transform(source, result);
-                return result.getWriter().toString();
-            } catch (ParserConfigurationException e) {
-                throw new RuntimeException(e);
-            } catch (TransformerConfigurationException e) {
-                throw new RuntimeException(e);
-            } catch (TransformerException e) {
-                throw new RuntimeException(e);
             }
         }
     }
@@ -398,25 +380,41 @@ public class GVRKUms extends HBCIJobResultImpl {
     }
 
     public String toString() {
-        verifyMT94xParsing("toString()");
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-        StringBuffer ret = new StringBuffer();
-        String linesep = System.getProperty("line.separator");
+            Document doc = docBuilder.newDocument();
+            Element root = doc.createElement("bookings");
+            doc.appendChild(root);
 
-        // mt940
-        for (Iterator<UmsLine> i = getFlatData().iterator(); i.hasNext();) {
-            ret.append(i.next().toString()).append(linesep);
+            Element booked = doc.createElement("booked");
+            for (Iterator<UmsLine> i = getFlatData().iterator(); i.hasNext();) {
+                i.next().addResult(doc, booked);
+            }
+            root.appendChild(booked);
+            
+            Element unbooked = doc.createElement("unbooked");
+            for (Iterator<UmsLine> i = getFlatDataUnbooked().iterator(); i.hasNext();) {
+                i.next().addResult(doc, unbooked);
+            }
+            root.appendChild(unbooked);
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new StringWriter());
+            transformer.transform(source, result);
+            return result.getWriter().toString();
+        } catch (DOMException e) {
+            throw new RuntimeException(e);
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (TransformerConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (TransformerException e) {
+            throw new RuntimeException(e);
         }
-        ret.append("rest: ").append(restMT940).append(linesep).append(linesep);
-
-        // mt942
-        ret.append("not yet booked:").append(linesep);
-        for (Iterator<UmsLine> i = getFlatDataUnbooked().iterator(); i.hasNext();) {
-            ret.append(i.next().toString()).append(linesep);
-        }
-        ret.append("rest: ").append(restMT942);
-
-        return ret.toString().trim();
     }
 
     private void verifyMT94xParsing(String where) {
