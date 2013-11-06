@@ -141,16 +141,16 @@ public class HBCIBatch
             answers=new Properties();
             FileInputStream answerFile=new FileInputStream(args[1]);
             answers.load(answerFile);
+            // REM (PS) use the args to pass pin and passphrase!
+            answers.setProperty("pin", args[5]); 
+            answers.setProperty("passphrase", args[6]);
+            
             answerFile.close();
             
-            // wenn ein logfile angegeben wurde, dann dieses als ausgabemedium
-            // für stdout und stderr verwenden
-            if (args.length>=5) {
-                PrintStream outStream=new PrintStream(new FileOutputStream(args[4]));
-                System.setOut(outStream);
-                System.setErr(outStream);
-                this.setOutStream(outStream);
-            }
+            PrintStream outStream=new PrintStream(new FileOutputStream(args[4]));
+            System.setOut(outStream);
+            System.setErr(outStream);
+            this.setOutStream(outStream);
         }
         
         // modifizierte callback-methode, die daten-anfragen "automatisch"
