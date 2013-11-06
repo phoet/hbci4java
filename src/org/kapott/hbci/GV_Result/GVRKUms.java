@@ -152,55 +152,46 @@ public class GVRKUms extends HBCIJobResultImpl {
                 element.appendChild(doc.createTextNode(HBCIUtils.date2StringLocal(valuta)));
                 rootElement.appendChild(element);
             }
-
             if (bdate != null) {
                 element = doc.createElement("bdate");
                 element.appendChild(doc.createTextNode(HBCIUtils.date2StringLocal(bdate)));
                 rootElement.appendChild(element);
             }
-
             if (customerref != null) {
                 element = doc.createElement("customerref");
                 element.appendChild(doc.createTextNode(customerref));
                 rootElement.appendChild(element);
             }
-
             if (instref != null) {
                 element = doc.createElement("instref");
                 element.appendChild(doc.createTextNode(instref));
                 rootElement.appendChild(element);
             }
-
             if (isStorno) {
                 element = doc.createElement("isStorno");
                 element.appendChild(doc.createTextNode(isStorno ? "true" : "false"));
                 rootElement.appendChild(element);
             }
-
             if (gvcode != null) {
                 element = doc.createElement("gvcode");
                 element.appendChild(doc.createTextNode(gvcode));
                 rootElement.appendChild(element);
             }
-
             if (text != null) {
                 element = doc.createElement("text");
                 element.appendChild(doc.createTextNode(text));
                 rootElement.appendChild(element);
             }
-
             if (primanota != null) {
                 element = doc.createElement("primanota");
                 element.appendChild(doc.createTextNode(primanota));
                 rootElement.appendChild(element);
             }
-
             if (additional != null) {
                 element = doc.createElement("additional");
                 element.appendChild(doc.createTextNode(additional));
                 rootElement.appendChild(element);
             }
-
             if (value != null) {
                 element = doc.createElement("value");
                 element.appendChild(doc.createTextNode(value.toString()));
@@ -217,14 +208,10 @@ public class GVRKUms extends HBCIJobResultImpl {
                 rootElement.appendChild(element);
             }
             if (saldo != null) {
-                element = doc.createElement("saldo");
-                element.appendChild(doc.createTextNode(saldo.toString()));
-                rootElement.appendChild(element);
+                saldo.addResult(doc, rootElement);
             }
             if (other != null) {
-                element = doc.createElement("other");
-                element.appendChild(doc.createTextNode(other.toString()));
-                rootElement.appendChild(element);
+                other.addResult(doc, rootElement);
             }
 
             Element usageElement = doc.createElement("usages");

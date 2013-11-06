@@ -25,6 +25,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.kapott.hbci.manager.HBCIUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /** Darstellung eines Saldos. Anders als bei der Darstellung als
     einfacher Wert wird hier der <em>absolute</em> Betrag des Wertes
@@ -51,4 +53,23 @@ public final class Saldo
     {
         return HBCIUtils.datetime2StringLocal(timestamp)+" "+value.toString();
     }
+
+    public void addResult(Document doc, Element parentElement) {
+        Element rootElement = doc.createElement("saldo");
+        parentElement.appendChild(rootElement);
+        
+        Element element = null;
+
+        if (timestamp != null) {
+            element = doc.createElement("timestamp");
+            element.appendChild(doc.createTextNode(HBCIUtils.date2StringLocal(timestamp)));
+            rootElement.appendChild(element);
+        }
+        if (value != null) {
+            element = doc.createElement("value");
+            element.appendChild(doc.createTextNode(value.toString()));
+            rootElement.appendChild(element);
+        }
+    }
+
 }

@@ -25,6 +25,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.kapott.hbci.manager.HBCIUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /** Kontoverbindung.
     Diese Klasse repräsentiert eine einzelne Kontoverbindung 
@@ -152,6 +154,67 @@ public class Konto
     	}
     	
         return ret.toString();
+    }
+
+    public void addResult(Document doc, Element parentElement) {
+        Element rootElement = doc.createElement("konto");
+        parentElement.appendChild(rootElement);
+        
+        Element element = null;
+
+        if (type != null) {
+            element = doc.createElement("type");
+            element.appendChild(doc.createTextNode(type));
+            rootElement.appendChild(element);
+        }
+        if (name != null) {
+            element = doc.createElement("name");
+            element.appendChild(doc.createTextNode(name));
+            rootElement.appendChild(element);
+        }
+        if (name2 != null) {
+            element = doc.createElement("name2");
+            element.appendChild(doc.createTextNode(name2));
+            rootElement.appendChild(element);
+        }
+        if (number != null) {
+            element = doc.createElement("number");
+            element.appendChild(doc.createTextNode(number));
+            rootElement.appendChild(element);
+        }
+        if (subnumber != null) {
+            element = doc.createElement("subnumber");
+            element.appendChild(doc.createTextNode(subnumber));
+            rootElement.appendChild(element);
+        }
+        if (blz != null) {
+            element = doc.createElement("blz");
+            element.appendChild(doc.createTextNode(blz));
+            rootElement.appendChild(element);
+            element = doc.createElement("bankname");
+            element.appendChild(doc.createTextNode(HBCIUtils.getNameForBLZ(blz)));
+            rootElement.appendChild(element);
+        }
+        if (bic != null) {
+            element = doc.createElement("bic");
+            element.appendChild(doc.createTextNode(bic));
+            rootElement.appendChild(element);
+        }
+        if (iban != null) {
+            element = doc.createElement("iban");
+            element.appendChild(doc.createTextNode(iban));
+            rootElement.appendChild(element);
+        }
+        if (country != null) {
+            element = doc.createElement("country");
+            element.appendChild(doc.createTextNode(country));
+            rootElement.appendChild(element);
+        }
+        if (curr != null) {
+            element = doc.createElement("currency");
+            element.appendChild(doc.createTextNode(curr));
+            rootElement.appendChild(element);
+        }
     }
     
     /** Überprüfen der Kontonummer anhand des Prüfzifferverfahrens, welche für
